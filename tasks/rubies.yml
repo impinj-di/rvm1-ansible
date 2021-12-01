@@ -3,15 +3,16 @@
 - name: Detect rubies
   command: '{{ rvm1_rvm }} list strings'
   register: rvm_list_strings
-  changed_when: False
+  changed_when: false
 
 - name: Install rubies
   command: '{{ rvm1_rvm }} install {{ item }} {{ rvm1_ruby_install_flags }}'
   loop: '{{ rvm1_rubies | difference(rvm_list_strings.stdout_lines) }}'
+  changed_when: false
 
 - name: Detect default ruby version
   command: '{{ rvm1_rvm }} alias list default'
-  changed_when: False
+  changed_when: false
   register: detect_default_ruby_version
 
 - name: Select default ruby
@@ -21,17 +22,22 @@
 
 - name: Detect installed ruby patch number
   shell: >
+    set -o pipefail;
     {{ rvm1_rvm }} list strings | grep {{ item }} | tail -n 1
+  args:
+    executable: /bin/bash
   with_items: '{{ rvm1_rubies }}'
-  changed_when: False
+  changed_when: false
   register: ruby_patch
-  check_mode: no # Run in normal mode when in --check mode (http://docs.ansible.com/ansible/playbooks_checkmode.html)
+  check_mode: false  # Run in normal mode when in --check mode (http://docs.ansible.com/ansible/playbooks_checkmode.html)
 
 - name: Install bundler if not installed
   shell: >
+    set -o pipefail;
     ls {{ rvm1_install_path }}/wrappers/{{ item.stdout }}
     | if ! grep "^bundler " ; then {{ rvm1_install_path }}/wrappers/{{ item.stdout }}/gem install bundler ; fi
   args:
+    executable: /bin/bash
     creates: '{{ rvm1_install_path }}/wrappers/{{ item.stdout }}/bundler'
   with_items: '{{ ruby_patch.results }}'
   when: rvm1_bundler_install

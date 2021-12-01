@@ -79,7 +79,7 @@
 ### 1.3.5
 * Ensure rvm1_user owns all rvm related files
 * Allow passing in custom configuration options when installing ruby
-	
+
 ### 1.3.4
 * Change the default system wide install dir back to /usr/local/rvm
 * Add the rvm1_user: 'root' default variable to let you set the rvm directory owner
@@ -100,7 +100,7 @@
 * Always run rvm update unless you disable it by overwriting rvm1_rvm_check_for_updates
 
 ### 1.2.0
-* Add CentOS/RHEL support 
+* Add CentOS/RHEL support
 
 ### 1.1.1
 * Fix #7 and #8 by no longer chowning the user:group
