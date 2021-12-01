@@ -7,15 +7,12 @@ name: CI
     - main
   pull_request:
   schedule:
-    - cron: '8 1 * * 4'
+    - cron: '35 1 * * 2'
 
 jobs:
   molecule:
     name: Molecule
-    runs-on:
-      - self-hosted
-      - docker
-      - vault
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -23,8 +20,10 @@ jobs:
           - geerlingguy/docker-ubuntu2004-ansible:latest
           - geerlingguy/docker-ubuntu1804-ansible:latest
           - geerlingguy/docker-centos7-ansible:latest
+          - geerlingguy/docker-centos8-ansible:latest
           - geerlingguy/docker-debian10-ansible:latest
           - geerlingguy/docker-debian9-ansible:latest
+          - geerlingguy/docker-fedora34-ansible:latest
           - geerlingguy/docker-amazonlinux2-ansible:latest
 
     steps:
@@ -63,8 +62,6 @@ jobs:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
           MOLECULE_DISTRO: ${{ matrix.distro }}
-          AD_ADMIN_USER: ${{ steps.secrets.outputs.username }}
-          AD_ADMIN_PASSWORD: ${{ steps.secrets.outputs.password }}
           ANSIBLE_VERBOSITY: '1'
           ANSIBLE_STDOUT_CALLBACK: 'yaml'
           ANSIBLE_LOAD_CALLBACK_PLUGINS: 'True'
