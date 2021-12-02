@@ -1,15 +1,21 @@
 ---
 
-- name: Install curl
+- name: Install Debian packages
   package:
-    name: curl
-    state: present
-
-- name: Install dirmngr
-  package:
-    name: dirmngr
+    name:
+      - curl
+      - dirmngr
+      - procps
     state: present
   when: ansible_os_family | lower == 'debian'
+
+- name: Install Red Hat packages
+  package:
+    name:
+      - curl
+      - tar
+    state: present
+  when: ansible_os_family | lower == 'redhat'
 
 - name: Detect rvm binary
   stat: path='{{ rvm1_rvm }}'
