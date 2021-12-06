@@ -1,4 +1,4 @@
 ---
 roles:
-  - role: agoloncser.gnupg
+  - name: agoloncser.gnupg
 collections: []
