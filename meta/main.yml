@@ -16,10 +16,6 @@ galaxy_info:
       versions:
         - 8
         - 7
-    - name: Debian
-      versions:
-        - 10
-        - 9
     - name: Amazon Linux
       versions:
         - 2
