@@ -62,10 +62,11 @@
     curl -sSL https://rvm.io/{{ item }} | gpg --batch --import -
   args:
     executable: /bin/bash
+  changed_when: false
+  when: not ansible_check_mode and rvm1_gpg_keys != '' and gpg_imported_from is not defined
   with_items:
     - mpapis.asc
     - pkuczynski.asc
-  when: not ansible_check_mode and rvm1_gpg_keys != '' and gpg_imported_from is not defined
 
 - name: Install rvm
   shell: >
